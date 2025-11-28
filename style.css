@@ -1,0 +1,67 @@
+body {
+  margin: 0;
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Menú lateral */
+.menu {
+  width: 50%;
+  background-color: pink;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Icono arriba */
+.icono img {
+  width: 100px;
+  margin-bottom: 20px;
+}
+
+/* Botones estilo Doki Doki */
+.boton {
+  background-color: #ff80ab; /* rosa caramelo */
+  color: white;
+  border: 3mm solid white;
+  border-radius: 50px;
+  padding: 15px 30px;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: transform 0.2s, background-color 0.3s;
+}
+
+.boton:hover {
+  transform: scale(1.1);
+  background-color: #ff4081;
+}
+
+/* Submenú capítulos */
+.submenu {
+  display: none;
+  flex-direction: column;
+}
+
+/* Lateral derecho con foto */
+.lateral {
+  width: 50%;
+}
+
+.lateral img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Créditos */
+.creditos {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: rgba(255,255,255,0.8);
+  padding: 10px;
+  display: none;
+}
