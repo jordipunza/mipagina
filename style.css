@@ -3,6 +3,7 @@ body {
   height: 100vh;
   font-family: Arial, sans-serif;
   display: flex;
+  flex-direction: row-reverse; /* invierte el orden: primero menú (derecha), luego imagen (izquierda) */
 }
 
 .menu {
