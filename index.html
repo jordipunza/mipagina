@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <title>NinjaFeo</title>
   <link rel="stylesheet" href="style.css">
@@ -21,15 +21,15 @@
       <img src="img/icono.png" alt="icono del juego">
     </div>
 
-    <button class="boton" onclick="toggleCapitulos()">Jugar</button>
-    <div id="capitulos" class="submenu">
-      <a href="#" class="boton">Capítulo 1</a>
+    <div class="botonera">
+      <button class="boton" onclick="iniciarMusica(); toggleCapitulos()">Jugar</button>
+      <div id="capitulos" class="submenu">
+        <a href="#" class="boton">Capítulo 1</a>
+      </div>
+      <button class="boton" onclick="toggleMusica()">Opciones</button>
+      <button class="boton" onclick="mostrarCreditos()">Créditos</button>
     </div>
-
-    <button class="boton" onclick="toggleMusica()">Opciones</button>
-    <button class="boton" onclick="mostrarCreditos()">Créditos</button>
   </div>
-
 
   <div id="creditos" class="creditos">
     <p>Creador: ocramito6</p>

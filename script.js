@@ -1,11 +1,8 @@
-// Música de fondo
-let musica = new Audio("musicauno/musicafondo.mp3");
+let musica = new Audio("musicauno/fondo.mp3");
 musica.loop = true;
-musica.play();
 
-function toggleCapitulos() {
-  const submenu = document.getElementById("capitulos");
-  submenu.classList.toggle("show");
+function iniciarMusica() {
+  musica.play();
 }
 
 function toggleMusica() {
@@ -14,6 +11,11 @@ function toggleMusica() {
   } else {
     musica.pause();
   }
+}
+
+function toggleCapitulos() {
+  const submenu = document.getElementById("capitulos");
+  submenu.classList.toggle("show");
 }
 
 function mostrarCreditos() {
