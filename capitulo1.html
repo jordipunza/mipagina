@@ -4,8 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="novela.css">
 </head>
 <body>
-    <h1>Proximamente....</h1>
+    <!-- Contenedor para el fondo -->
+<div id="fondo" style="position:fixed;top:0;left:0;width:100%;height:100%;background-size:cover;"></div>
+
+<!-- Contenedor para los diálogos -->
+<div id="dialogo"></div>
+
+<script src="novela.js"></script>
+<script>
+  // Inicializamos
+  const fondo = new Fondo("fondo");
+  const bocadilloIzq = new Bocadillo("dialogo", "izquierda");
+  const bocadilloDer = new Bocadillo("dialogo", "derecha");
+
+  // Cambiar fondo con transición
+  fondo.cambiarFondo("img/escena1.jpg");
+
+  // Mostrar diálogo personaje 1
+  bocadilloIzq.mostrarDialogo("Hola, soy el protagonista.", "img/prota.png");
+
+  // Después de unos segundos, otro personaje habla
+  setTimeout(() => {
+    bocadilloDer.mostrarDialogo("Encantado de conocerte.", "img/secundario.png");
+  }, 3000);
+</script>
+
 </body>
 </html>

@@ -1,0 +1,69 @@
+/* Fondo de la novela visual */
+#fondo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 1s ease;
+  z-index: -1;
+}
+
+/* Contenedor de diálogos */
+#dialogo {
+  position: fixed;
+  bottom: 5%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Bocadillo base */
+.bocadillo {
+  max-width: 70%;
+  background: rgba(255,255,255,0.9);
+  border: 3mm solid #ff80ab;
+  border-radius: 20px;
+  padding: 15px;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  animation: fadeIn 0.5s ease;
+}
+
+/* Bocadillo a la izquierda */
+.bocadillo.izquierda {
+  align-self: flex-start;
+}
+
+/* Bocadillo a la derecha */
+.bocadillo.derecha {
+  align-self: flex-end;
+}
+
+/* Imagen/avatar dentro del bocadillo */
+.bocadillo img.avatar {
+  width: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  border: 2px solid #ff80ab;
+}
+
+/* Texto del bocadillo */
+.bocadillo p {
+  font-size: 1.2em;
+  color: #333;
+  text-align: center;
+}
+
+/* Animación de aparición */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
