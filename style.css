@@ -96,7 +96,6 @@ body {
   background-color: #ff4081;
 }
 
-
 .creditos,
 .submenu {
   position: fixed;
@@ -139,4 +138,18 @@ body {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* 🔒 Evitar arrastre y contorno azul */
+body {
+  user-select: none; /* no permite seleccionar texto */
+}
+
+img, button {
+  -webkit-user-drag: none; /* evita arrastrar imágenes/botones en WebKit */
+  user-select: none;
+}
+
+button:focus {
+  outline: none; /* elimina el contorno azul */
 }

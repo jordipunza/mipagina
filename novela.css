@@ -1,4 +1,3 @@
-/* Fondo de la novela visual */
 #fondo {
   position: fixed;
   inset: 0;
@@ -9,66 +8,136 @@
   z-index: -1;
 }
 
-/* Contenedor de diálogos (centrado) */
 #dialogo {
   position: fixed;
-  bottom: 5%;
+  bottom: 10%;
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
-  max-width: 900px;
-  display: block;
+  width: 95%;
+  max-width: 1200px;
   z-index: 1000;
 }
 
-/* Bocadillo siempre centrado */
-.bocadillo {
+.dialogo-contenedor {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   width: 100%;
-  max-width: 700px;
-  margin: 20px auto;
-  background: rgba(255,255,255,0.9);
-  border: 3mm solid #ff80ab;
-  border-radius: 20px;
-  padding: 16px 20px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  margin: 0 auto;
   animation: fadeIn 0.4s ease;
 }
 
-/* Cabecera del bocadillo: avatar alineable izquierda/derecha */
-.bocadillo-header {
+.dialogo-contenedor.izquierda {
+  align-items: flex-start;
+}
+
+.dialogo-contenedor.derecha {
+  align-items: flex-end;
+}
+
+.personaje {
+  width: 200px;
+  height: auto;
+  margin-bottom: -20px;
+}
+
+.bocadillo {
+  position: relative;
   width: 100%;
+  min-height: 220px;
+  background: rgba(255,255,255,0.9);
+  border: 3mm solid #ff80ab;
+  border-radius: 20px;
+  padding: 40px 50px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
   display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-/* Control de alineación del avatar según posición */
-.bocadillo.izquierda .bocadillo-header {
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: flex-start;
+  box-sizing: border-box;
 }
 
-.bocadillo.derecha .bocadillo-header {
-  justify-content: flex-end;
+.nombre {
+  position: absolute;
+  top: -30px;
+  max-width: 200px;       /* límite horizontal */
+  white-space: nowrap;    /* no salta de línea */
+  overflow: hidden;       /* oculta exceso */
+  text-overflow: ellipsis;/* puntos suspensivos si es muy largo */
+  background: #ff80ab;
+  color: white;
+  font-weight: bold;
+  padding: 5px 15px;
+  border-radius: 15px 15px 0 0;
+  font-size: 1.1em;
+  z-index: 2;
 }
 
-/* Imagen/avatar */
-.avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 2px solid #ff80ab;
-  object-fit: cover;
+.dialogo-contenedor.izquierda .nombre {
+  left: 20px;
 }
 
-/* Texto del bocadillo (siempre centrado) */
+.dialogo-contenedor.derecha .nombre {
+  right: 20px;
+}
+
 .bocadillo-texto {
-  font-size: 1.2em;
+  font-size: 1.5em;
   color: #333;
-  text-align: center;
-  line-height: 1.4;
+  line-height: 1.6;
+  width: 100%;
+  text-align: left;
+  overflow: visible;
+  word-wrap: break-word;
 }
 
-/* Pantalla de inicio */
+#skipBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 8px 20px;
+  background: #ff80ab;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1em;
+  cursor: pointer;
+  z-index: 2000;
+  transition: background 0.3s ease;
+}
+
+#skipBtn.active {
+  background: #ff4081;
+}
+
+#skipBtn:hover {
+  background: #ff4081;
+}
+
+#prevBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 140px;
+  padding: 8px 20px;
+  background: #ff80ab;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1em;
+  cursor: pointer;
+  z-index: 1999;
+  transition: background 0.3s ease;
+}
+
+#prevBtn:hover {
+  background: #666;
+}
+
+#prevBtn:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+
 #startScreen {
   position: fixed;
   inset: 0;
@@ -82,11 +151,10 @@
 
 #startScreen h1 {
   color: white;
-  font-size: 2em;
+  font-size: 2.2em;
   animation: blink 1s infinite;
 }
 
-/* Animaciones */
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.98); }
   to { opacity: 1; transform: scale(1); }
@@ -95,4 +163,110 @@
 @keyframes blink {
   0%, 50%, 100% { opacity: 1; }
   25%, 75% { opacity: 0; }
+}
+
+@media (max-width: 768px) {
+  .personaje {
+    width: 150px;
+  }
+
+  .bocadillo {
+    min-height: 180px;
+    padding: 20px;
+  }
+
+  .bocadillo-texto {
+    font-size: 1.2em;
+  }
+
+  .nombre {
+    font-size: 1em;
+    top: -25px;
+    padding: 4px 12px;
+    max-width: 150px;
+  }
+
+  .dialogo-contenedor.izquierda .nombre {
+    left: 15px;
+  }
+
+  .dialogo-contenedor.derecha .nombre {
+    right: 15px;
+  }
+
+  #prevBtn {
+    right: 100px; /* ajusta posición en pantallas más pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+  .personaje {
+    width: 120px;
+  }
+
+  .bocadillo {
+    min-height: 150px;
+    padding: 15px;
+  }
+
+  .bocadillo-texto {
+    font-size: 1em;
+  }
+
+  .nombre {
+    font-size: 0.9em;
+    top: -20px;
+    padding: 3px 10px;
+    max-width: 120px;
+  }
+
+  .dialogo-contenedor.izquierda .nombre {
+    left: 10px;
+  }
+
+  .dialogo-contenedor.derecha .nombre {
+    right: 10px;
+  }
+
+  #prevBtn {
+    right: 90px; /* ajusta posición en móviles */
+  }
+}
+
+#topButtons {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 3000;
+}
+
+#topButtons button {
+  padding: 8px 15px;
+  background: #444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#topButtons button:hover {
+  background: #222;
+}
+
+/* 🔒 Evitar arrastre y contorno azul */
+body {
+  user-select: none; /* no permite seleccionar texto */
+}
+
+img, button {
+  -webkit-user-drag: none; /* evita arrastrar imágenes/botones en WebKit */
+  user-select: none;
+}
+
+button:focus {
+  outline: none; /* elimina el contorno azul */
 }
