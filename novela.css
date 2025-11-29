@@ -1,69 +1,98 @@
 /* Fondo de la novela visual */
 #fondo {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background-size: cover;
   background-position: center;
-  transition: opacity 1s ease;
+  opacity: 1;
+  transition: opacity 0.6s ease;
   z-index: -1;
 }
 
-/* Contenedor de diálogos */
+/* Contenedor de diálogos (centrado) */
 #dialogo {
   position: fixed;
   bottom: 5%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 900px;
+  display: block;
   z-index: 1000;
 }
 
-/* Bocadillo base */
+/* Bocadillo siempre centrado */
 .bocadillo {
-  max-width: 70%;
+  width: 100%;
+  max-width: 700px;
+  margin: 20px auto;
   background: rgba(255,255,255,0.9);
   border: 3mm solid #ff80ab;
   border-radius: 20px;
-  padding: 15px;
-  margin: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 16px 20px;
   box-shadow: 0 0 15px rgba(0,0,0,0.3);
-  animation: fadeIn 0.5s ease;
+  animation: fadeIn 0.4s ease;
 }
 
-/* Bocadillo a la izquierda */
-.bocadillo.izquierda {
-  align-self: flex-start;
-}
-
-/* Bocadillo a la derecha */
-.bocadillo.derecha {
-  align-self: flex-end;
-}
-
-/* Imagen/avatar dentro del bocadillo */
-.bocadillo img.avatar {
-  width: 80px;
-  border-radius: 50%;
+/* Cabecera del bocadillo: avatar alineable izquierda/derecha */
+.bocadillo-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
   margin-bottom: 10px;
-  border: 2px solid #ff80ab;
 }
 
-/* Texto del bocadillo */
-.bocadillo p {
+/* Control de alineación del avatar según posición */
+.bocadillo.izquierda .bocadillo-header {
+  justify-content: flex-start;
+}
+
+.bocadillo.derecha .bocadillo-header {
+  justify-content: flex-end;
+}
+
+/* Imagen/avatar */
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid #ff80ab;
+  object-fit: cover;
+}
+
+/* Texto del bocadillo (siempre centrado) */
+.bocadillo-texto {
   font-size: 1.2em;
   color: #333;
   text-align: center;
+  line-height: 1.4;
 }
 
-/* Animación de aparición */
+/* Pantalla de inicio */
+#startScreen {
+  position: fixed;
+  inset: 0;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  cursor: pointer;
+}
+
+#startScreen h1 {
+  color: white;
+  font-size: 2em;
+  animation: blink 1s infinite;
+}
+
+/* Animaciones */
 @keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
+  from { opacity: 0; transform: scale(0.98); }
   to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes blink {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
 }
