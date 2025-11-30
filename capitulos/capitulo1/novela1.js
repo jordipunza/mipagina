@@ -35,6 +35,7 @@ class Musica {
   constructor() {
     this.audio = null;
     this.muted = false;
+    this.currentRuta = null; // 🔥 nueva propiedad para recordar la música actual
   }
 
   cambiarMusica(ruta) {
@@ -43,6 +44,7 @@ class Musica {
         this.audio.pause();
         this.audio = null;
       }
+      this.currentRuta = "muted";
       return;
     }
 
@@ -52,6 +54,7 @@ class Musica {
     this.audio.loop = true;
     this.audio.muted = this.muted;
     this.audio.play().catch(() => { });
+    this.currentRuta = ruta; // 🔥 guardamos la ruta actual
   }
 
   setMute(valor) {
@@ -65,9 +68,11 @@ class Musica {
     if (this.audio) {
       this.audio.pause();
       this.audio = null;
+      this.currentRuta = null;
     }
   }
 }
+
 
 class Sonido {
   constructor() {
@@ -214,7 +219,20 @@ mostrarDialogoActual() {
   }
   if (fondoActual) this.fondo.cambiarFondo(fondoActual);
 
-  if (d.musica) this.musica.cambiarMusica(d.musica);
+  // música válida (igual que el fondo, pero sin reiniciar si es null)
+  let musicaActual = null;
+  for (let i = this.indice; i >= 0; i--) {
+    if (this.dialogos[i].musica !== null && this.dialogos[i].musica !== undefined) {
+      musicaActual = this.dialogos[i].musica;
+      break;
+    }
+  }
+  if (musicaActual !== null && musicaActual !== undefined) {
+    if (this.musica.currentRuta !== musicaActual) {
+      this.musica.cambiarMusica(musicaActual);
+    }
+  }
+
   if (d.sonido) this.sonido.reproducir(d.sonido);
 
   // siempre crear Bocadillo, pero ocultar si showBubble = false
@@ -235,13 +253,9 @@ mostrarDialogoActual() {
   if (!d.showBubble) {
     const contenedor = document.getElementById("dialogo");
     const bocadilloElem = contenedor.querySelector(".bocadillo");
-    if (bocadilloElem) {
-      bocadilloElem.style.display = "none";
-    }
+    if (bocadilloElem) bocadilloElem.style.display = "none";
     const nombreElem = contenedor.querySelector(".nombre");
-    if (nombreElem) {
-      nombreElem.style.display = "none";
-    }
+    if (nombreElem) nombreElem.style.display = "none";
   }
 }
 
@@ -311,24 +325,36 @@ window.addEventListener("load", () => {
     }
   });
 
-  // Ejemplo de diálogos y redirección
+  //  Ejemplo de diálogos y redirección
+  // escena.agregarDialogo(
+  //   true, // muestra bocadillo
+  //   ". . .  ", //Contenido del texto, null es para nada
+  //   "", //Imagen del personaje, null es apra nada
+  //   "izquierda", //La imagen y el nombre del personaje, si o si pon uno
+  //   "../../img/vacio.jpg", //Imagen del fondo "null" si quiero la misma"
+  //   "../../img/musicauno/vacio.mp3", //Musica de este dialogo, "muted si no quiero ninguna" o null si quiero la misma
+  //   null, //Audio q quiera ponerle
+  //   "???", //Nombre del personaje
+  //   "Fira Code", //tipografia
+  //   true, //false se puede saltar, true no se puede (recomendacion añade espacios a final de un texto si es mi corto porque si tienes activado el skipear lo va a ignorar al ser tan pequeño el texto)
+  //   true //true si quieres que el texto vaya muy lento, false si quieres que no vaya lento (si este esta activado, la opcion anterior estara anulada, me refiero la de saltar), aun asi si esta esta activa activa la otra
+  // );
   escena.agregarDialogo(
-    true, // muestra bocadillo
-    ". . .  ", //Contenido del texto, null es para nada
-    "", //Imagen del personaje, null es apra nada
-    "izquierda", //La imagen y el nombre del personaje, si o si pon uno
-    "../../img/vacio.jpg", //Imagen del fondo "null" si quiero la misma"
-    "../../img/musicauno/vacio.mp3", //Musica de este dialogo, "muted si no quiero ninguna" o null si quiero la misma
-    null, //Audio q quiera ponerle
-    "???", //Nombre del personaje
-    "Fira Code", //tipografia
-    true, //false se puede saltar, true no se puede (recomendacion añade espacios a final de un texto si es mi corto porque si tienes activado el skipear lo va a ignorar al ser tan pequeño el texto)
-    true //true si quieres que el texto vaya muy lento, false si quieres que no vaya lento (si este esta activado, la opcion anterior estara anulada, me refiero la de saltar), aun asi si esta esta activa activa la otra
+    false,
+    "aaaaaaaaaaaaaaaaa",
+    null,
+    "izquierda",
+    "../../img/vacio.jpg",
+    "../../img/musicauno/vacio.mp3",
+    null,
+    null,
+    null,
+    true,
+    true
   );
-
   escena.agregarDialogo(
     true,
-    "Proximamente...     ",
+    ". . .",
     "../../img/momo.png",
     "izquierda",
     null,
@@ -348,7 +374,7 @@ window.addEventListener("load", () => {
     null,
     null,
     null,
-    "Momo",
+    null,
     null,
     true,
     true
@@ -437,7 +463,7 @@ window.addEventListener("load", () => {
     "Vale dude",
     "../../img/bear5.png",
     "derecha",
-    null,
+    "../../img/ninjafondo.jpg",
     "muted",
     "../../img/sonidos/bear5v2.mp3",
     "Bear5",
