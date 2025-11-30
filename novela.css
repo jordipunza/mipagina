@@ -47,8 +47,9 @@
 }
 
 .personaje {
-  width: 200px;
-  height: auto;
+  height: 300px;        /* altura fija */
+  width: auto;          /* ancho automático */
+  object-fit: cover;    /* mantiene proporción y recorta si sobra ancho */
   margin-bottom: -20px;
   opacity: 0;
   transition: opacity 0.6s ease;
@@ -184,7 +185,9 @@
 
 @media (max-width: 768px) {
   .personaje {
-    width: 150px;
+    height: 300px;      /* altura fija menor en tablets */
+    width: auto;
+    object-fit: cover;
   }
 
   .bocadillo {
@@ -218,7 +221,9 @@
 
 @media (max-width: 480px) {
   .personaje {
-    width: 120px;
+    height: 200px;      /* altura fija menor en móviles */
+    width: auto;
+    object-fit: cover;
   }
 
   .bocadillo {
