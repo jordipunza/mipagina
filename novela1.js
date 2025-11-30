@@ -39,7 +39,16 @@ class Musica {
   }
 
   cambiarMusica(ruta) {
+    if (ruta === "muted") {
+      if (this.audio) {
+        this.audio.pause();
+        this.audio = null;
+      }
+      return;
+    }
+
     if (this.audio) this.audio.pause();
+
     this.audio = new Audio(ruta);
     this.audio.loop = true;
     this.audio.muted = this.muted;
@@ -50,6 +59,13 @@ class Musica {
     this.muted = valor;
     if (this.audio) {
       this.audio.muted = valor;
+    }
+  }
+
+  stop() {
+    if (this.audio) {
+      this.audio.pause();
+      this.audio = null;
     }
   }
 }
@@ -265,7 +281,7 @@ window.addEventListener("load", () => {
     "img/momo.png",
     "derecha",
     null,
-    null,
+    "muted",
     null,
     "Momo",
     "Courier New"
