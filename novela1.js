@@ -277,7 +277,7 @@ window.addEventListener("load", () => {
   );
 
   escena.agregarDialogo(
-    "Proximanmnte...",
+    "Proximamente...",
     "img/momo.png",
     "izquierda",
     null,
