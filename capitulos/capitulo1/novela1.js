@@ -51,7 +51,7 @@ class Musica {
     this.audio = new Audio(ruta);
     this.audio.loop = true;
     this.audio.muted = this.muted;
-    this.audio.play().catch(() => {});
+    this.audio.play().catch(() => { });
   }
 
   setMute(valor) {
@@ -80,15 +80,16 @@ class Sonido {
       this.efecto.currentTime = 0;
     }
     this.efecto = new Audio(ruta);
-    this.efecto.play().catch(() => {});
+    this.efecto.play().catch(() => { });
   }
 }
 
 class Bocadillo {
-  constructor(contenedorId, posicion = "izquierda", getSkipMode = () => false) {
+  constructor(contenedorId, posicion = "izquierda", getSkipMode = () => false, getLentoMode = () => false) {
     this.contenedor = document.getElementById(contenedorId);
     this.posicion = posicion;
     this.getSkipMode = getSkipMode;
+    this.getLentoMode = getLentoMode;
     this.finished = false;
   }
 
@@ -112,14 +113,20 @@ class Bocadillo {
     });
 
     let index = 0;
-    const baseSpeed = 50;
-    const fastSpeed = 20;
+    const baseSpeed = 70;   // velocidad normal
+    const fastSpeed = 10;   // velocidad rápida (skip)
+    const slowSpeed = 150;  // 🔥 nueva velocidad lenta
 
     const escribir = () => {
       if (index < texto.length) {
         textoElem.textContent += texto.charAt(index);
         index++;
-        const delay = this.getSkipMode() ? fastSpeed : baseSpeed;
+        let delay;
+        if (this.getLentoMode()) {
+          delay = slowSpeed;
+        } else {
+          delay = this.getSkipMode() ? fastSpeed : baseSpeed;
+        }
         setTimeout(escribir, delay);
       } else {
         this.finished = true;
@@ -146,8 +153,8 @@ class Escena {
     this.currentBocadillo = null;
   }
 
-  agregarDialogo(texto, imagen, posicion = "izquierda", fondo = null, musica = null, sonido = null, nombre = "", fuente = "inherit") {
-    this.dialogos.push({ tipo: "dialogo", texto, imagen, posicion, fondo, musica, sonido, nombre, fuente });
+  agregarDialogo(texto, imagen, posicion = "izquierda", fondo = null, musica = null, sonido = null, nombre = "", fuente = "inherit", noSkip = false, lento = false) {
+    this.dialogos.push({ tipo: "dialogo", texto, imagen, posicion, fondo, musica, sonido, nombre, fuente, noSkip, lento });
   }
 
   agregarRedireccion(redirect) {
@@ -183,6 +190,7 @@ class Escena {
       return;
     }
 
+    // Buscar último fondo válido
     let fondoActual = null;
     for (let i = this.indice; i >= 0; i--) {
       if (this.dialogos[i].fondo) {
@@ -195,12 +203,18 @@ class Escena {
     if (d.musica) this.musica.cambiarMusica(d.musica);
     if (d.sonido) this.sonido.reproducir(d.sonido);
 
-    this.currentBocadillo = new Bocadillo("dialogo", d.posicion, () => this.skipMode);
+    // Control de velocidad según skip, noSkip y lento
+    this.currentBocadillo = new Bocadillo("dialogo", d.posicion, () => {
+      if (this.skipMode && d.noSkip) return false; // fuerza velocidad normal
+      return this.skipMode;
+    }, () => d.lento);
+
+    // Callback al terminar de escribir
     this.currentBocadillo.mostrarDialogo(d.texto, d.imagen, d.nombre, d.fuente, () => {
       if (this.skipMode) {
         setTimeout(() => {
           this.avanzar();
-        }, 1200);
+        }, 0);
       }
     });
   }
@@ -239,7 +253,7 @@ window.addEventListener("load", () => {
 
   const menuBtn = document.getElementById("menuBtn");
   menuBtn.addEventListener("click", () => {
-    window.location.href = "index.html";
+    window.location.href = "../../index.html";
   });
 
   const muteBtn = document.getElementById("muteBtn");
@@ -261,7 +275,7 @@ window.addEventListener("load", () => {
   }, { once: true });
 
   document.addEventListener("click", (ev) => {
-    if (["skipBtn","prevBtn","menuBtn","muteBtn"].includes(ev.target.id)) return;
+    if (["skipBtn", "prevBtn", "menuBtn", "muteBtn"].includes(ev.target.id)) return;
     if (ev.target && ev.target.id === "startScreen") return;
     const b = escena.currentBocadillo;
     if (b && b.finished && !escena.skipMode) {
@@ -271,14 +285,16 @@ window.addEventListener("load", () => {
 
   // Ejemplo de diálogos y redirección
   escena.agregarDialogo(
-    "Inicio vacío...",
-    "",
-    "izquierda",
-    "../../img/vacio.jpg",
-    "../../img/musicauno/vacio.mp3",
-    null,
-    "???",
-    "Fira Code"
+    "Inicio vacío...aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", //Contenido del texto, null es para nada
+    "", //Imagen del personaje, null es apra nada
+    "izquierda", //La imagen y el nombre del personaje, si o si pon uno
+    "../../img/vacio.jpg", //Imagen del fondo "null" si quiero la misma"
+    "../../img/musicauno/vacio.mp3", //Musica de este dialogo, "muted si no quiero ninguna" o null si quiero la misma
+    null, //Audio q quiera ponerle
+    "???", //Nombre del personaje
+    "Fira Code", //tipografia
+    false, //false se puede saltar, true no se puede (recomendacion añade espacios a final de un texto si es mi corto porque si tienes activado el skipear lo va a ignorar al ser tan pequeño el texto)
+    false //true si quieres que el texto vaya muy lento, false si quieres que no vaya lento (si este esta activado, la opcion anterior estara anulada, me refiero la de saltar), aun asi si esta esta activa activa la otra
   );
 
   escena.agregarDialogo(
@@ -286,10 +302,132 @@ window.addEventListener("load", () => {
     "../../img/momo.png",
     "izquierda",
     null,
+    null,
+    null,
+    "Momo",
+    "Courier New",
+    false,
+    false
+  );
+  escena.agregarDialogo(
+    "...",
+    "../../img/momo.png",
+    "izquierda",
+    null,
+    null,
+    null,
+    "Momo",
+    "Courier New",
+    false,
+    false
+  );
+  escena.agregarDialogo(
+    "...",
+    "../../img/momo.png",
+    "izquierda",
+    null,
+    null,
+    null,
+    "Momo",
+    "Courier New",
+    false,
+    false
+  );
+  escena.agregarDialogo(
+    "...",
+    "../../img/momo.png",
+    "izquierda",
+    null,
+    null,
+    null,
+    "Momo",
+    "Courier New",
+    false,
+    false
+  );
+  escena.agregarDialogo(
+    "Porque sigues aqui...",
+    "../../img/momo.png",
+    "izquierda",
+    null,
+    null,
+    null,
+    "Momo",
+    "Courier New",
+    true,
+    false
+  );
+  escena.agregarDialogo(
+    "No hay nada interesante y da igual cuanto intentes skipear no te voy a dejar skipear rapido ya que no hay nada",
+    "../../img/momo.png",
+    "izquierda",
+    null,
+    null,
+    null,
+    "Momo",
+    "Courier New",
+    true,
+    false
+  );
+  escena.agregarDialogo(
+    "...",
+    "../../img/momo.png",
+    "izquierda",
+    null,
+    null,
+    null,
+    "Momo",
+    "Courier New",
+    true,
+    false
+  );
+  escena.agregarDialogo(
+    "...",
+    "../../img/momo.png",
+    "izquierda",
+    null,
+    null,
+    null,
+    "Momo",
+    "Courier New",
+    true,
+    true
+  );
+  escena.agregarDialogo(
+    "...",
+    "../../img/momo.png",
+    "izquierda",
+    null,
+    null,
+    null,
+    "Momo",
+    "Courier New",
+    true,
+    true
+  );
+  escena.agregarDialogo(
+    ". . .",
+    "../../img/momo.png",
+    "izquierda",
+    null,
     "muted",
     null,
     "Momo",
-    "Courier New"
+    "Courier New",
+    false,
+    true
+  );
+  escena.agregarDialogo(
+    "Vale dude            ",
+    "../../img/bear5.png",
+    "izquierda",
+    null,
+    "muted",
+    "../../img/sonidos/bear5v2.mp3",
+    "Momo",
+    "Courier New",
+    true,
+    true
   );
   escena.agregarRedireccion("../../index.html");
 });
