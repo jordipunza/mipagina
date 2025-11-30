@@ -264,37 +264,26 @@ window.addEventListener("load", () => {
     }
   });
 
-  // 📌 Primer diálogo con comentarios de cada parámetro
+
   escena.agregarDialogo(
-    "Hola, soy el protagonista.",   // texto que se muestra en el bocadillo
-    "img/ninjach.png",              // sprite del personaje (imagen del protagonista)
+    "",   // texto que se muestra en el bocadillo
+    "",              // sprite del personaje (imagen del protagonista)
     "izquierda",                    // posición del bocadillo (izquierda/derecha)
-    "img/ninjafondo.jpg",           // fondo de la escena
-    "img/musicauno/fondo.mp3",      // música de fondo
+    "img/vacio.jpg",           // fondo de la escena
+    "img/musicauno/vacio.mp3",      // música de fondo
     null,                           // sonido puntual (efecto de sonido)
-    "Ninjamejor",                   // nombre del personaje que habla
-    "Georgia"                       // fuente tipográfica del texto
+    "???",                   // nombre del personaje que habla
+    "Fira Code"                       // fuente tipográfica del texto
   );
 
   escena.agregarDialogo(
-    "Ninja feo",
+    "Proximanmnte...",
     "img/momo.png",
-    "derecha",
+    "izquierda",
     null,
-    "muted",
+    null,
     null,
     "Momo",
     "Courier New"
-  );
-
-  escena.agregarDialogo(
-    ":(",
-    "img/ninjach.png",
-    "izquierda",
-    "img/momo.png",
-    "img/musicauno/accion.mp3",
-    "img/sonidos/meretiro.mp3",
-    "Ninjamejor",
-    "Comic Sans MS"
   );
 });
